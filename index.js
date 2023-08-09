@@ -1,10 +1,3 @@
-import './index.css'
-function importAll(r) {
-    return r.keys().map(r);
-}
-
-const images = importAll(require.context('./images', false, /\.(png|jpe?g|svg)$/));
-
 // 數字時間
 const timeDisplay = document.getElementById("time_display")
 
