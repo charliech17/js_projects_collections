@@ -1,0 +1,53 @@
+#time_display{
+    font-size: 72px;
+    font-weight: 500;
+}
+
+body{
+    height: 100vh;
+    margin: 0;
+    width: 100vw;
+}
+
+.wrapper{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.color_select{
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:24px;
+    padding:16px
+}
+
+.color_cell{
+    text-align: center;
+}
+
+.color_cell > input {
+    margin-top: 8px;
+}
+
+#control_section{
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+#control_section > button:nth-child(1),
+#control_section > button:nth-child(2) {
+    margin-right: 8px;
+}
+
+#control_section > button {
+    width: 100px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 20px;
+}
