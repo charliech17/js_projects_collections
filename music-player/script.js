@@ -1,11 +1,3 @@
-import './style.css'
-function importAll(r) {
-    return r.keys().map(r);
-}
-
-const music = importAll(require.context('./music', false, /\.(mp3)$/));
-const images = importAll(require.context('./images', false, /\.(png|jpe?g|svg)$/));
-
 const audio = document.getElementById("audio")
 const playPauseBtn =  document.getElementById("play")
 const playPauseBtnIcon = playPauseBtn.querySelector('i')
