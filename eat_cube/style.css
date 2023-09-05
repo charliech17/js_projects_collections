@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.html, body{
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.wrapper_border {
+    border: 1px solid black;
+    max-width: 1024px;
+    position: relative;
+}
+
+.start_cube{
+    background-color: blue;
+    position: absolute;
+}
+
+.eat_target{
+    background-color: red;
+    position: absolute;
+}
+
+
