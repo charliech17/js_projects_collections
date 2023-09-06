@@ -57,7 +57,6 @@ window.addEventListener("pointerup",(event)=> {
 })
 
 window.addEventListener("pointermove",(event)=> {
-    console.log(event)
     if(mouseInfo.isInContainer) {
         const xPos = event.pageX - styleInfo.bodyMargin
         const yPos = event.pageY - styleInfo.bodyMargin
