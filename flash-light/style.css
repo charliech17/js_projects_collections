@@ -9,6 +9,10 @@
     --bodyMargin: 0px;
 }
 
+html{
+    overflow-y: hidden;
+}
+
 body {
     margin: var(--bodyMargin);
 }

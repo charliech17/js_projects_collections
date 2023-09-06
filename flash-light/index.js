@@ -49,7 +49,15 @@ container.addEventListener("pointerleave",() => {
     hideLight()
 })
 
+window.addEventListener("pointerup",(event)=> {
+    if(event.pointerType === 'touch') {
+        mouseInfo.isInContainer = false
+        hideLight()
+    }
+})
+
 window.addEventListener("pointermove",(event)=> {
+    console.log(event)
     if(mouseInfo.isInContainer) {
         const xPos = event.pageX - styleInfo.bodyMargin
         const yPos = event.pageY - styleInfo.bodyMargin
