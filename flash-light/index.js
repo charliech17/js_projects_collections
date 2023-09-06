@@ -51,20 +51,8 @@ container.addEventListener("pointerleave",() => {
 
 window.addEventListener("pointermove",(event)=> {
     if(mouseInfo.isInContainer) {
-        const pointerType = event.pointerType
-        let xPos,yPos
-        switch(pointerType) {
-            case 'mouse':
-                xPos = event.pageX - styleInfo.bodyMargin
-                yPos = event.pageY - styleInfo.bodyMargin
-                break;
-            case 'touch':
-            case 'pen':
-                xPos = event.touches[0].pageX - styleInfo.bodyMargin
-                yPos = event.touches[0].pageY - styleInfo.bodyMargin
-                break;
-            
-        }
+        const xPos = event.pageX - styleInfo.bodyMargin
+        const yPos = event.pageY - styleInfo.bodyMargin
         const xRatio = `${(xPos / styleInfo.containerWidth)*100}%`
         const yRatio = `${(yPos / styleInfo.containerHeight)*100}%`
         setLight(xRatio,yRatio)
