@@ -72,80 +72,65 @@ function createFirework(centerX,centerY) {
     const cWidth = window.innerWidth
     const xCenter = cWidth / 2
     const yCenter = cHeight / 2
+    const pNum = 100
+    const maxSpeed = 15
+    const pInfo = []
     let maxRadius = 15
+
     canvas.width = cWidth
     canvas.height = cHeight
     canvas.style.position = 'fixed'
     canvas.style.left = (centerX - xCenter) + 'px'
     canvas.style.top = (centerY - yCenter) + 'px'
     canvas.style.opacity = 1
-
-    const pNum = 100
-    const maxSpeed = 15
-    const pInfo = []
-    let alpha = 0 
-    let count = 0
     // default設定
     ctx.strokeStyle = 'orange'
     ctx.lineWidth = 5
     ctx.lineCap = 'round'
     ctx.globalCompositeOperation = 'lighter'
-    ctx.globalAlpha = alpha
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 
 
     createRandomParticle()
     requestAnimationFrame(drawFireworkDot)
 
-    function drawFireworkDot() {
-        count+=1
+    function drawFireworkDot(timeStamp) {
         ctx.clearRect(0, 0, cWidth, cHeight)
         // 畫出dash圓
         ctx.save()
         for(let i=0; i< pNum; i++) {
-            const nowColor = `hsl(38.82deg 100% ${pInfo[i].brightness}%)`
+            const { brightness,startDeg, radius, speed, 
+                    brightSpeed,circleSize,saveLastPoints,
+                    alpha,alphaSpeed,saveLimit,colorInfo,startTimeStamp} = pInfo[i]
+            const colorAlpha = Math.min(Math.floor(alpha*10)/10,1) 
+            const nowColor = `hsla(${colorInfo.deg} ${colorInfo.sat} ${brightness}% / ${colorAlpha})` //38.82deg, 100% 170deg 75%
             ctx.beginPath()
             ctx.fillStyle = nowColor
-            const degToRad =   pInfo[i].startDeg * Math.PI / 180
-            const xPoint = pInfo[i].radius * Math.cos(degToRad)
-            const yPoint = pInfo[i].radius * Math.sin(degToRad)
-            const nowXCenter = xCenter+xPoint
-            const nowYCenter = yCenter+yPoint
-            pInfo[i].radius += pInfo[i].speed
+            const degToRad =   startDeg * Math.PI / 180
+            const xPoint = radius * Math.cos(degToRad)
+            console.log(Math.pow((new Date()-startTimeStamp)/1000,2))
+            const yPoint =  radius * Math.sin(degToRad) 
+                            + ((500) * Math.pow((new Date()-startTimeStamp)/1000,2))
+            const nowXCenter = xCenter + xPoint
+            const nowYCenter = yCenter + yPoint
+            pInfo[i].radius += speed
             pInfo[i].brightness = Math.min(
-                (pInfo[i].brightness += pInfo[i].brightSpeed,pInfo[i].brightness)
+                (pInfo[i].brightness += brightSpeed,pInfo[i].brightness)
                 ,100
             )
-            ctx.arc(nowXCenter,nowYCenter,pInfo[i].circleSize,0,2*Math.PI)
+            ctx.arc(nowXCenter,nowYCenter,circleSize,0,2*Math.PI)
             ctx.fill()
 
-            if(pInfo[i].lastPointX && pInfo[i].lastPointY) {
+            if(saveLastPoints.length > 0) {
                 ctx.save()
-                const initXPoint = xCenter + pInfo[i].xStartPoint
-                const initYpoint = yCenter + pInfo[i].yStartPoint
-                const slope = (nowYCenter - initYpoint) / (nowXCenter - initXPoint)
-                const interception =  nowYCenter - (slope * nowXCenter)
-                let sign = 0
-                if(
-                    pInfo[i].startDeg > 0 && pInfo[i].startDeg < 90
-                    || pInfo[i].startDeg > 270 && pInfo[i].startDeg < 360
-                    ) {
-                    sign = 1
-                } else if(
-                    pInfo[i].startDeg > 90 && pInfo[i].startDeg < 180
-                    || pInfo[i].startDeg > 180 && pInfo[i].startDeg < 270
-                    ) {
-                    sign = -1
-                }
-
-                const finalX =  nowXCenter - sign * 20
-                const finalY =  slope * finalX + interception
-                var grad= ctx.createLinearGradient(
+                const finalX =  saveLastPoints[0].x
+                const finalY =  saveLastPoints[0].y
+                var grad = ctx.createLinearGradient(
                     nowXCenter, nowYCenter, 
                     finalX, finalY
                 );
                 grad.addColorStop(0,nowColor);
-                grad.addColorStop(1, bgColor);
+                grad.addColorStop(1, saveLastPoints[0].color);
                 ctx.strokeStyle = grad;
                 ctx.beginPath();
                 ctx.moveTo(nowXCenter, nowYCenter);
@@ -154,28 +139,47 @@ function createFirework(centerX,centerY) {
                 ctx.closePath();
                 ctx.restore()
             } 
-            pInfo[i].lastPointX = nowXCenter
-            pInfo[i].lastPointY = nowYCenter
-            pInfo[i].lastPointColor = nowColor
-            
+
+            saveLastPoints.push({
+                x: nowXCenter,
+                y: nowYCenter,
+                color:  nowColor
+            })
+            if(saveLastPoints.length > saveLimit) {
+                saveLastPoints.shift()
+            }
+            pInfo[i].alpha -= alphaSpeed
+
             ctx.closePath()
             
         }
         ctx.restore()
-        ctx.globalAlpha = (alpha+=0.1,alpha)
         requestAnimationFrame(drawFireworkDot)
     }
 
     function createRandomParticle() {
+        const colorArr = [
+            {deg:'38.82deg',sat:'100%'},
+            {deg:'170deg',sat:'75%'},
+            {deg:'349.52deg',sat:'100%'},
+            {deg:'54deg',sat:'100%'},
+        ]
+        const colorInfo = colorArr[Math.floor(getRandomArbitrary(0,colorArr.length))]
         for(let i=0; i< pNum; i++) {
             const info = {}
             
             info.radius = getRandomArbitrary(8,maxRadius)
             info.speed = getRandomArbitrary(5,maxSpeed)
             info.circleSize = getRandomArbitrary(1,10)
-            info.brightness = Math.floor(getRandomArbitrary(20,40)*100)/100
-            info.brightSpeed = getRandomArbitrary(0.5,2)
+            info.brightness = Math.floor(getRandomArbitrary(10,30)*100)/100
+            info.brightSpeed = Math.floor(getRandomArbitrary(15,40))/10
             info.startDeg = getRandomArbitrary(0,360)
+            info.saveLastPoints = []
+            info.saveLimit = Math.floor(getRandomArbitrary(3,8))
+            info.alpha = 1
+            info.alphaSpeed = getRandomArbitrary(0.001,0.05)
+            info.colorInfo = colorInfo
+            info.startTimeStamp = new Date()
             
             const degToRad =   info.startDeg * Math.PI / 180
             const xStartPoint = info.radius * Math.cos(degToRad)
