@@ -1,8 +1,3 @@
-window.addEventListener("click",(event) => {
-    // createScatter(event.pageX,event.pageY)
-    createFirework(event.pageX,event.pageY)
-})
-
 // css 散射版本
 function createScatter(centerX,centerY) {
     const radius = 30
@@ -64,7 +59,6 @@ function createScatter(centerX,centerY) {
 }
 
 // canvas
-let bgColor ='black'
 function createFirework(centerX,centerY) {
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
@@ -108,7 +102,6 @@ function createFirework(centerX,centerY) {
             ctx.fillStyle = nowColor
             const degToRad =   startDeg * Math.PI / 180
             const xPoint = radius * Math.cos(degToRad)
-            console.log(Math.pow((new Date()-startTimeStamp)/1000,2))
             const yPoint =  radius * Math.sin(degToRad) 
                             + ((500) * Math.pow((new Date()-startTimeStamp)/1000,2))
             const nowXCenter = xCenter + xPoint
@@ -199,3 +192,13 @@ function createFirework(centerX,centerY) {
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
+
+window.addEventListener("click",(event) => {
+    console.log('hello click')
+    createFirework(event.pageX,event.pageY)
+})
+
+window.addEventListener("touchstart",(event) => {
+    console.log('hello touch')
+    createFirework(event.pageX,event.pageY)
+})
