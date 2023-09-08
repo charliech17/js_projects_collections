@@ -88,7 +88,8 @@ function createFirework(centerX,centerY) {
     createRandomParticle()
     requestAnimationFrame(drawFireworkDot)
 
-    function drawFireworkDot(timeStamp) {
+    function drawFireworkDot() {
+        const judgeCanvasDelArr = []
         ctx.clearRect(0, 0, cWidth, cHeight)
         // 畫出dash圓
         ctx.save()
@@ -103,7 +104,7 @@ function createFirework(centerX,centerY) {
             const degToRad =   startDeg * Math.PI / 180
             const xPoint = radius * Math.cos(degToRad)
             const yPoint =  radius * Math.sin(degToRad) 
-                            + ((500) * Math.pow((new Date()-startTimeStamp)/1000,2))
+                            + ((400) * Math.pow((new Date()-startTimeStamp)/1000,2))
             const nowXCenter = xCenter + xPoint
             const nowYCenter = yCenter + yPoint
             pInfo[i].radius += speed
@@ -125,6 +126,7 @@ function createFirework(centerX,centerY) {
                 grad.addColorStop(0,nowColor);
                 grad.addColorStop(1, saveLastPoints[0].color);
                 ctx.strokeStyle = grad;
+                ctx.lineWidth = circleSize + 1
                 ctx.beginPath();
                 ctx.moveTo(nowXCenter, nowYCenter);
                 ctx.lineTo(finalX, finalY);
@@ -143,10 +145,16 @@ function createFirework(centerX,centerY) {
             }
             pInfo[i].alpha -= alphaSpeed
 
+
+            if(nowXCenter > cWidth || nowYCenter > cHeight) {
+                judgeCanvasDelArr.push(true)
+            }
+
             ctx.closePath()
-            
         }
         ctx.restore()
+
+        if(judgeCanvasDelArr.length === pNum) return canvas.remove()
         requestAnimationFrame(drawFireworkDot)
     }
 
@@ -168,7 +176,7 @@ function createFirework(centerX,centerY) {
             info.brightSpeed = Math.floor(getRandomArbitrary(15,40))/10
             info.startDeg = getRandomArbitrary(0,360)
             info.saveLastPoints = []
-            info.saveLimit = Math.floor(getRandomArbitrary(3,8))
+            info.saveLimit = Math.floor(getRandomArbitrary(3,7))
             info.alpha = 1
             info.alphaSpeed = getRandomArbitrary(0.001,0.05)
             info.colorInfo = colorInfo
