@@ -1,3 +1,9 @@
+function init() {
+    const root = document.querySelector(':root')
+    const vh = window.innerHeight / 100
+    root.style.setProperty("--vh",vh)
+}
+
 // css 散射版本
 function createScatter(centerX,centerY) {
     const radius = 30
@@ -59,7 +65,7 @@ function createScatter(centerX,centerY) {
 }
 
 // canvas
-function createFirework(centerX,centerY) {
+function createFirework(pointX,pointY) {
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
     const cHeight = window.innerHeight
@@ -74,15 +80,14 @@ function createFirework(centerX,centerY) {
     canvas.width = cWidth
     canvas.height = cHeight
     canvas.style.position = 'fixed'
-    canvas.style.left = (centerX - xCenter) + 'px'
-    canvas.style.top = (centerY - yCenter) + 'px'
+    canvas.style.left = 0 + 'px'
+    canvas.style.top = 0 + 'px'
     canvas.style.opacity = 1
     // default設定
     ctx.strokeStyle = 'orange'
     ctx.lineWidth = 5
     ctx.lineCap = 'round'
     ctx.globalCompositeOperation = 'lighter'
-	ctx.fillRect(0,0,canvas.width,canvas.height);
 
 
     createRandomParticle()
@@ -105,8 +110,8 @@ function createFirework(centerX,centerY) {
             const xPoint = radius * Math.cos(degToRad)
             const yPoint =  radius * Math.sin(degToRad) 
                             + ((400) * Math.pow((new Date()-startTimeStamp)/1000,2))
-            const nowXCenter = xCenter + xPoint
-            const nowYCenter = yCenter + yPoint
+            const nowXCenter =  xPoint + pointX
+            const nowYCenter =  yPoint + pointY
             pInfo[i].radius += speed
             pInfo[i].brightness = Math.min(
                 (pInfo[i].brightness += brightSpeed,pInfo[i].brightness)
@@ -210,3 +215,5 @@ window.addEventListener("touchstart",(event) => {
     console.log('hello touch')
     createFirework(event.pageX,event.pageY)
 })
+
+init()
