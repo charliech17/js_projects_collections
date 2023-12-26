@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root{
+    --lightXPos: 50vw;
+    --lightYPos: 50%;
+    --bodyMargin: 0px;
+}
+
+html{
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    margin: var(--bodyMargin);
+}
+
+#container{
+    position: relative;
+}
+
+.flashLight {
+    width: calc(100vw - (2 * var(--bodyMargin)));
+    height: 100%;
+    position: absolute;
+    background: radial-gradient(
+        circle 9em at var(--lightXPos)  var(--lightYPos),
+        rgba(0,0,0,0),
+        rgba(0,0,0,1)
+    );
+}
+
+.paragraph{
+    padding: 16px;
+}

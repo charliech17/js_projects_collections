@@ -1,0 +1,20 @@
+:root{
+    --vh: 1vh;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    height: calc(var(--vh,1vh)*100);
+    width: 100vw;
+    background-color: black;
+}
+
+
+.mainContent {
+    position: relative;
+}
