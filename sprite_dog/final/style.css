@@ -1,0 +1,14 @@
+.canvas{
+    border: 1px solid black;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.mt-2 {
+    margin-top: 20px;
+}
+.mt-5 {
+    margin-top: 50px;
+}

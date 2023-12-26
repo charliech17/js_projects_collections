@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <main>
+        <h1 class="text-center">canvas動畫教學</h1>
+        <div class="text-center">
+            <select id="moveSL" onchange="handleSelectChange()">
+                <option value="still">停止</option>
+                <option value="run">跑</option>
+                <option value="circle">轉</option>
+                <option value="fall">趴下</option>
+            </select>
+        </div>
+        <div class="text-center mt-2">
+            <a href="https://www.youtube.com/watch?v=GFO_txvwK_c">參考youtube</a>
+        </div>
+        <div class="text-center mt-5">
+            <canvas id="cvs" class="canvas"></canvas>
+        </div>
+    </main>
+    <script src="./script.js"></script>
+</body>
+</html>
