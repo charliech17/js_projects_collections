@@ -37,7 +37,7 @@ let frameY = 0;
 let gameFrame = 0;
 let movement = "still"
 let recordTimes = 0;
-const staggerFrames = 8;
+const staggerFrames = 5;
 const animationState = {
     "idle": {
         col: 0,
